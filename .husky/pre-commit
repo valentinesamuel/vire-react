@@ -1,32 +1,31 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo 'Styling and building your project before committing'
+echo -e '\033[1mStyling and building your project before committing\033[0m'
 
-# Check Prettier
+# Format Prettier
 npm run prettier-formatter ||
 {
-    echo 'Prettier Check Failed. Run ==> npm run prettier-formatter<==, add changes and try commiting again';
+    echo -e '\033[31mPrettier Formatting Failed\033[0m. Run \033[1;34m==> npm run prettier-formatter<==\033[0m, add changes and try commiting again';
     false;
 }
 
 # Check Prettier
 npm run prettier-checker ||
 {
-    echo 'Prettier Check Failed. Run ==> npm run prettier-formatter<==, add changes and try commiting again';
+    echo -e '\033[31mPrettier Check Failed\033[0m. \033[1;34mCorrect the errors, add changes and try commiting again\033[0m';
     false;
 }
 
 # Check EsLint
 npm run lint ||
 {
-    echo 'ESLint Check Failed. Make the required changes listed above, add changes and try commiting again';
+    echo -e '\033[31mESLint Check Failed\033[0m. \033[1;34mMake the required changes listed above, add changes and try commiting again\033[0m';
     false;
-}
-&& 
-{
-    echo 'There were errors with your linting. Please hang on while i try to fix the linting issues'
-} || npm run lint:fix
+} && {
+    echo -e '\033[31mThere were errors with your linting\033[0m. \033[1;33mPlease hang on while i try to fix the linting issues\033[0m';
+    false;
+} || npm run lint:fix && echo -e '\e[32mPhew.. I finally fixed it\e[0m'
 
 # Check tsconfig
 # npm run check-types ||
@@ -38,14 +37,9 @@ npm run lint ||
 # Build
 npm run build ||
 {
-    echo 'Your build process failed. Attend to the errors above';
+    echo -e '\033[31mYour build process failed\033[0m. \033[1;34mAttend to the errors above\033[0m';
     false;
 }
 
 # Successful comitting
-echo '\n########Commit Success#################Commit Success##########################\n
-########Commit Success#################Commit Success##########################\n
-########Commit Success#################Commit Success##########################\n
-########Commit Success#################Commit Success##########################\n
-########Commit Success#################Commit Success##########################\n
-########Commit Success#################Commit Success##########################';
+echo -e 'echo -e "\033[32m\n\n\nOK\033[0m"';
