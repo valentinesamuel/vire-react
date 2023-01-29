@@ -1,0 +1,51 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo 'Styling and building your project before committing'
+
+# Check Prettier
+npm run prettier-formatter ||
+{
+    echo 'Prettier Check Failed. Run ==> npm run prettier-formatter<==, add changes and try commiting again';
+    false;
+}
+
+# Check Prettier
+npm run prettier-checker ||
+{
+    echo 'Prettier Check Failed. Run ==> npm run prettier-formatter<==, add changes and try commiting again';
+    false;
+}
+
+# Check EsLint
+npm run lint ||
+{
+    echo 'ESLint Check Failed. Make the required changes listed above, add changes and try commiting again';
+    false;
+}
+&& 
+{
+    echo 'There were errors with your linting. Please hang on while i try to fix the linting issues'
+} || npm run lint:fix
+
+# Check tsconfig
+# npm run check-types ||
+# {
+#    echo 'Failed type checking, add changes and try commiting again';
+#    false;
+# }
+
+# Build
+npm run build ||
+{
+    echo 'Your build process failed. Attend to the errors above';
+    false;
+}
+
+# Successful comitting
+echo '\n########Commit Success#################Commit Success##########################\n
+########Commit Success#################Commit Success##########################\n
+########Commit Success#################Commit Success##########################\n
+########Commit Success#################Commit Success##########################\n
+########Commit Success#################Commit Success##########################\n
+########Commit Success#################Commit Success##########################';
